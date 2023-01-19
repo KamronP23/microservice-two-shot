@@ -3,7 +3,7 @@
 Team:
 
 * Person 1 - Which microservice?
-* Person 2 - Which microservice?
+* Kamron Poosti - Hats
 
 ## Design
 
