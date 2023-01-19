@@ -3,7 +3,7 @@
 Team:
 
 * Todd Compton - Shoes?
-* Person 2 - Which microservice?
+* Kamron Poosti - Hats
 
 ## Design
 
