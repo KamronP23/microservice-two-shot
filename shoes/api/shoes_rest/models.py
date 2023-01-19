@@ -9,6 +9,7 @@ class LocationVO(models.Model):
     shelf_number = models.PositiveSmallIntegerField()
 
 class BinVO(models.Model):
+    import_href = models.CharField(max_length=200, unique=True)
     closet_name = models.CharField(max_length=100)
     section_number = models.PositiveSmallIntegerField()
     shelf_number = models.PositiveSmallIntegerField()
@@ -21,7 +22,7 @@ class Shoe(models.Model):
     pic_url =models.URLField(null=True)
 
     location = models.ForeignKey(
-        LocationVO,
+        BinVO,
         related_name="shoes",
         on_delete=models.CASCADE
     )

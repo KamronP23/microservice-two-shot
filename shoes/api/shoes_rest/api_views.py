@@ -24,7 +24,7 @@ class ShoeListEncoder(ModelEncoder):
     properties = ["model_name"]
 
     def get_extra_data(self, o):
-        return {"location": o.location.properties}
+        return {"bin": o.bin.properties}
 
 
 class ShoeDetailEncoder(ModelEncoder):
@@ -36,14 +36,14 @@ class ShoeDetailEncoder(ModelEncoder):
         "pic_url",
     ]
     encoders = {
-        "location": LocationVODetailEncoder(),
+        "bin": BinVOEncoder(),
     }
 
 @require_http_methods(["GET", "POST"])
-def api_list_shoes(request, location_vo_id=None):
+def api_list_shoes(request, bin_vo_id=None):
     if request.method == "GET":
-        if location_vo_id is not None:
-            shoes = Shoe.objects.filter(location=location_vo_id)
+        if bin_vo_id is not None:
+            shoes = Shoe.objects.filter(bin=bin_vo_id)
         else:
             shoes = Shoe.objects.all()
         return JsonResponse(
@@ -55,10 +55,10 @@ def api_list_shoes(request, location_vo_id=None):
 
         # Get the Conference object and put it in the content dict
         try:
-            location_href = content["location"]
-            location = LocationVO.objects.get(import_href=location_href)
-            content["location"] = location
-        except LocationVO.DoesNotExist:
+            bin_href = content["bin"]
+            bin = BinVO.objects.get(import_href=bin_href)
+            content["bin"] = bin
+        except BinVO.DoesNotExist:
             return JsonResponse(
                 {"message": "Invalid conference id"},
                 status=400,
