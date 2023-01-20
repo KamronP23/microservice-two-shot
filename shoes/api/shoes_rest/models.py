@@ -11,8 +11,8 @@ class LocationVO(models.Model):
 class BinVO(models.Model):
     import_href = models.CharField(max_length=200, unique=True)
     closet_name = models.CharField(max_length=100)
-    section_number = models.PositiveSmallIntegerField()
-    shelf_number = models.PositiveSmallIntegerField()
+    bin_number = models.PositiveSmallIntegerField()
+    bin_size = models.PositiveSmallIntegerField()
 
 
 class Shoe(models.Model):
@@ -21,7 +21,7 @@ class Shoe(models.Model):
     color = models.CharField(max_length=200)
     pic_url =models.URLField(null=True)
 
-    location = models.ForeignKey(
+    bin = models.ForeignKey(
         BinVO,
         related_name="shoes",
         on_delete=models.CASCADE
@@ -30,5 +30,5 @@ class Shoe(models.Model):
     def __str__(self):
         return self.name
 
-    def get_API_url(self):
+    def get_api_url(self):
         return reverse("api_show_shoe", kwargs={"pk": self.pk})

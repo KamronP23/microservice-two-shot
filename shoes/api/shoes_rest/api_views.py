@@ -17,6 +17,7 @@ class BinVOEncoder(ModelEncoder):
         "closet_name",
         "bin_number",
         "bin_size",
+        "import_href",
     ]
 
 class ShoeListEncoder(ModelEncoder):
@@ -24,7 +25,7 @@ class ShoeListEncoder(ModelEncoder):
     properties = ["model_name"]
 
     def get_extra_data(self, o):
-        return {"bin": o.bin.properties}
+        return {"bin": o.bin.id}
 
 
 class ShoeDetailEncoder(ModelEncoder):
@@ -40,33 +41,59 @@ class ShoeDetailEncoder(ModelEncoder):
     }
 
 @require_http_methods(["GET", "POST"])
-def api_list_shoes(request, bin_vo_id=None):
+def api_list_shoes(request):
     if request.method == "GET":
-        if bin_vo_id is not None:
-            shoes = Shoe.objects.filter(bin=bin_vo_id)
-        else:
-            shoes = Shoe.objects.all()
+        shoes = Shoe.objects.all()
         return JsonResponse(
             {"shoes": shoes},
             encoder=ShoeListEncoder,
         )
     else:
         content = json.loads(request.body)
+        #print(content)
 
         # Get the Conference object and put it in the content dict
         try:
-            bin_href = content["bin"]
-            bin = BinVO.objects.get(import_href=bin_href)
+
+            #bin_href = content["bin_id"]
+            bin = BinVO.objects.get(id=content["bin"])
             content["bin"] = bin
+            print(content)
         except BinVO.DoesNotExist:
             return JsonResponse(
-                {"message": "Invalid conference id"},
+                {"message": "Invalid bin id"},
                 status=400,
             )
 
-        shoes = Shoe.objects.create(**content)
+        shoe = Shoe.objects.create(**content)
+        #print(shoe)
         return JsonResponse(
-            shoes,
+            shoe,
             encoder=ShoeDetailEncoder,
             safe=False,
         )
+
+
+@require_http_methods(["DELETE", "GET"])
+def api_show_shoe(request, pk):
+    if request.menthod == "GET":
+        shoe = Shoe.objects.get(id=pk)
+        return JsonResponse(
+            shoe,
+            encoder=ShoeDetailEncoder,
+            safe=False,
+        )
+    elif request.method == "DELETE":
+        count, _ = Shoe.objects.filter(id=pk).delete()
+        return JsonResponse({"deleted": count > 0})
+
+
+
+#
+@require_http_methods(["GET"])
+def api_list_binVOs(request):
+    #if request.method == "GET":
+    bins = BinVO.objects.all()
+    return JsonResponse({"bins": bins}, encoder=BinVOEncoder)    
+
+
