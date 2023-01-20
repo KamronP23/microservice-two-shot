@@ -17,7 +17,7 @@ def get_locations():
     content = json.loads(response.content)
     for location in content["locations"]:
         LocationVO.objects.update_or_create(
-            import_href=location["href"],
+            #import_href=location["href"],
             defaults={
                 "closet_name": location["closet_name"],
                 "section_number": location["section_number"],
