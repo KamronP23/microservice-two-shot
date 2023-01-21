@@ -21,11 +21,11 @@ class LocationVODetailEncoder(ModelEncoder):
 #     properties = ["closet_name", "bin_number", "bin_size"]
 class HatsListEncoder(ModelEncoder):
     model = Hats
-    properties = ["style_name", "id", "location"]
+    properties = ["style_name", "id", "location", "color", "fabric", "hat_picture_url"]
 
 # commented this out 8am
     def get_extra_data(self, o):
-        return {"location": o.location.import_href}
+        return {"location": o.location.closet_name}
 
 
 class HatsDetailEncoder(ModelEncoder):
