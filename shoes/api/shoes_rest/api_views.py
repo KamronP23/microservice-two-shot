@@ -22,7 +22,7 @@ class BinVOEncoder(ModelEncoder):
 
 class ShoeListEncoder(ModelEncoder):
     model = Shoe
-    properties = ["model_name"]
+    properties = ["manufacturer", "model_name", "color", "pic_url"]
 
     def get_extra_data(self, o):
         return {"bin": o.bin.id}
@@ -41,7 +41,7 @@ class ShoeDetailEncoder(ModelEncoder):
     }
 
 @require_http_methods(["GET", "POST"])
-def api_list_shoes(request):
+def api_list_shoes(request, bin_vo_id=None):
     if request.method == "GET":
         shoes = Shoe.objects.all()
         return JsonResponse(
