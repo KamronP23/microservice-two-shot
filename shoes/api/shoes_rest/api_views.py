@@ -22,7 +22,7 @@ class BinVOEncoder(ModelEncoder):
 
 class ShoeListEncoder(ModelEncoder):
     model = Shoe
-    properties = ["manufacturer", "model_name", "color", "pic_url"]
+    properties = ["manufacturer", "model_name", "color", "pic_url", "id"]
 
     def get_extra_data(self, o):
         return {"bin": o.bin.id}
@@ -35,13 +35,14 @@ class ShoeDetailEncoder(ModelEncoder):
         "model_name",
         "color",
         "pic_url",
+        "id",
     ]
     encoders = {
         "bin": BinVOEncoder(),
     }
 
 @require_http_methods(["GET", "POST"])
-def api_list_shoes(request, bin_vo_id=None):
+def api_list_shoes(request):
     if request.method == "GET":
         shoes = Shoe.objects.all()
         return JsonResponse(
@@ -76,7 +77,7 @@ def api_list_shoes(request, bin_vo_id=None):
 
 @require_http_methods(["DELETE", "GET"])
 def api_show_shoe(request, pk):
-    if request.menthod == "GET":
+    if request.method == "GET":
         shoe = Shoe.objects.get(id=pk)
         return JsonResponse(
             shoe,

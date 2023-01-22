@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-function ShoesForm(props) {
+function ShoesForm({getShoes}) {
 
     const [model_name, setModel_name] = useState('');
 
@@ -45,9 +45,10 @@ function ShoesForm(props) {
         data.manufacturer = manufacturer;
         data.color = color;
         data.pic_url = pic_url;
-        console.log(data);
+        data.bin = bin;
       
-        const locationUrl = 'http://localhost:8080/api/shoes/';
+      
+        const shoesUrl = 'http://localhost:8080/api/shoes/';
         const fetchConfig = {
           method: "post",
           body: JSON.stringify(data),
@@ -56,14 +57,16 @@ function ShoesForm(props) {
           },
         };
       
-        const response = await fetch(locationUrl, fetchConfig);
+        const response = await fetch(shoesUrl, fetchConfig);
         if (response.ok) {
-          const newLocation = await response.json();
-          console.log(newLocation);
+          const newBin = await response.json();
+          console.log(newBin);
           setModel_name('');
           setManufacturer('');
           setColor('');
           setPic_url('');
+          setBin('');
+          return getShoes();        
         }
       }
 
@@ -75,6 +78,7 @@ function ShoesForm(props) {
 
         if (response.ok) {
             const data = await response.json()
+            console.log(data.bins)
             setBins(data.bins)
 
             }
@@ -106,13 +110,13 @@ function ShoesForm(props) {
                 <label htmlFor="city">Picture URL</label>
               </div>
               <div className="mb-3">
-                <select onChange={handleBinChange} required placeholder="Bin" name="bin" id="bin" className="form-select">
+                <select onChange={handleBinChange} required  name="bin" id="bin" className="form-select">
                   <option value="">Bin</option>
                   {bins.map(bin => {
                     return (
                         <option key={bin.id} value={bin.id}>
                             {bin.id}
-                         </option>
+                        </option>
                     );
                   })}
                 </select>
