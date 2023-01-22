@@ -42,6 +42,7 @@ function HatForm() {
              'Content-Type': 'application/json',
            },
         };
+
          const hatResponse = await fetch(hatUrl, fetchOptions);
          if (hatResponse.ok) {
             console.log(hatResponse);

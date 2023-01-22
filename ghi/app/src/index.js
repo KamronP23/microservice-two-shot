@@ -9,22 +9,22 @@ root.render(
   </React.StrictMode>
 );
 
-async function loadHats(){
-  const response = await fetch('http://localhost:8090/api/hats/');
-  if (response.ok) {
-    const data = await response.json();
-    console.log(data);
-    root.render(
-      <React.StrictMode>
-        <App hats={data.hats} />
-      </React.StrictMode>
-    );
-  }else {
-    console.error(response);
-    }
-  }
+// async function loadHats(){
+//   const response = await fetch('http://localhost:8090/api/hats/');
+//   if (response.ok) {
+//     const data = await response.json();
+//     console.log(data);
+//     root.render(
+//       <React.StrictMode>
+//         <App hats={data.hats} />
+//       </React.StrictMode>
+//     );
+//   }else {
+//     console.error(response);
+//     }
+//   }
 
-  loadHats()
+//   loadHats()
 
 // async function loadHatsAndShoes() {
 //   const response = await fetch('http://localhost:8090/api/hats/');

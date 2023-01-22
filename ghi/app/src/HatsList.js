@@ -1,9 +1,11 @@
-import React, {useEffect} from 'react';
-import loadHats from "./index.js"
+import React, {useState, useEffect} from 'react';
+// import loadHats from "./index.js"
+import { Link } from 'react-router-dom';
 
-function HatsList (props, loadHats){
+function HatsList ({ hats, loadHats }){
     const deleteHat = async (id) => {
-        const response = await fetch ('http://localhost:8090/api/hats/${id}/',{
+        console.log(loadHats)
+        const response = await fetch (`http://localhost:8090/api/hats/${id}`, {
             method: "delete",
         })
         .then(() => {
@@ -11,7 +13,7 @@ function HatsList (props, loadHats){
         })
         .catch(console.log)
     }
-    if (props.hats === undefined) {
+    if (hats === undefined) {
         return null
     }
 
@@ -21,10 +23,12 @@ function HatsList (props, loadHats){
           <tr>
             <th>Name</th>
             <th>Location</th>
+            <th>Fabric</th>
+            <th>Color</th>
           </tr>
         </thead>
         <tbody>
-          {props.hats.map(hat => {
+          {hats.map(hat => {
             return (
               <tr key={hat.id}>
                 <td>{ hat.style_name }</td>
