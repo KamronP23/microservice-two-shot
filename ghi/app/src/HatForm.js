@@ -1,7 +1,7 @@
 import React, {useEffect, useState } from 'react';
 
 
-function HatForm() {
+function HatForm({loadHats}) {
 
     const [locations, setLocations] = useState([]);
     const [styleName, setStyleName] = useState('')
@@ -51,6 +51,7 @@ function HatForm() {
             setFabric('');
             setColor('');
             setHatPictureUrl('');
+            loadHats('');
          }
       }
     const handleStyleNameChange = (event) => {
@@ -115,7 +116,7 @@ function HatForm() {
                       </div>
                     </div>
                     <div className="form-floating mb-3">
-                    <select onChange={handleLocationChange} name="location" id="location" required>
+                    <select onChange={handleLocationChange} name="location" id="location" required value={location}>
                       <option value="">Choose a closet</option>
                       {locations.map(location => {
                         return (
