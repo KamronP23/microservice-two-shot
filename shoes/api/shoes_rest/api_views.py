@@ -22,7 +22,7 @@ class BinVOEncoder(ModelEncoder):
 
 class ShoeListEncoder(ModelEncoder):
     model = Shoe
-    properties = ["model_name"]
+    properties = ["manufacturer", "model_name", "color", "pic_url", "id"]
 
     def get_extra_data(self, o):
         return {"bin": o.bin.id}
@@ -35,6 +35,7 @@ class ShoeDetailEncoder(ModelEncoder):
         "model_name",
         "color",
         "pic_url",
+        "id",
     ]
     encoders = {
         "bin": BinVOEncoder(),
@@ -50,9 +51,7 @@ def api_list_shoes(request):
         )
     else:
         content = json.loads(request.body)
-        #print(content)
-
-        # Get the Conference object and put it in the content dict
+  
         try:
 
             #bin_href = content["bin_id"]
@@ -76,7 +75,7 @@ def api_list_shoes(request):
 
 @require_http_methods(["DELETE", "GET"])
 def api_show_shoe(request, pk):
-    if request.menthod == "GET":
+    if request.method == "GET":
         shoe = Shoe.objects.get(id=pk)
         return JsonResponse(
             shoe,
