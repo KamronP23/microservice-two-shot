@@ -60,13 +60,12 @@ function ShoesForm({getShoes}) {
         const response = await fetch(shoesUrl, fetchConfig);
         if (response.ok) {
           const newBin = await response.json();
-          console.log(newBin);
           setModel_name('');
           setManufacturer('');
           setColor('');
           setPic_url('');
           setBin('');
-          return getShoes();        
+          getShoes();        
         }
       }
 
@@ -92,7 +91,7 @@ function ShoesForm({getShoes}) {
         <div className="offset-3 col-6">
           <div className="shadow p-4 mt-4">
             <h1>Create a new shoe</h1>
-            <form onSubmit={handleSubmit} id="create-location-form">
+            <form onSubmit={handleSubmit} id="create-shoe-form">
               <div className="form-floating mb-3">                
                 <input onChange={handleModel_nameChange} placeholder="Model" required type="text" name="model_name" id="model_name" className="form-control" value={model_name} />
                 <label htmlFor="name">Model</label>
@@ -110,8 +109,8 @@ function ShoesForm({getShoes}) {
                 <label htmlFor="city">Picture URL</label>
               </div>
               <div className="mb-3">
-                <select onChange={handleBinChange} required  name="bin" id="bin" className="form-select">
-                  <option value="">Bin</option>
+                <select onChange={handleBinChange} required  name="bin" id="bin" className="form-select" value={bin}>
+                  <option>Bin</option>
                   {bins.map(bin => {
                     return (
                         <option key={bin.id} value={bin.id}>

@@ -51,9 +51,7 @@ def api_list_shoes(request):
         )
     else:
         content = json.loads(request.body)
-        #print(content)
-
-        # Get the Conference object and put it in the content dict
+  
         try:
 
             #bin_href = content["bin_id"]
